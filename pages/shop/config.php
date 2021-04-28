@@ -16,6 +16,7 @@
                 ]
             );
             //echo "Connected successfully";
+            //
             return $pdo;
         }
         catch(PDOException $e) {
