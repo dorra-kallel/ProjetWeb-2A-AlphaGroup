@@ -2,18 +2,18 @@
     require_once '../Controller/shopC.php';
     require_once '../Model/shop.php';
 
-    $shopC =  new shopC();
+    $articleC =  new articleC();
 
     if (isset($_POST['nom']) && isset($_POST['prix']) && isset($_POST['image'])) {
-        $shop = new shop($_POST['nom'], (float)$_POST['prix'], $_POST['image']);
+        $article = new article($_POST['nom'], (int)$_POST['prix'], $_POST['image']);
         
-        $shopC->addArticle($shop);
+        $articleC->addArticle($article);
 
         header('Location:addArticle.php');}
       
     
-    $shopC=new shopC();
-	$shoping=$shopC->afficherArticle();
+    $articleC=new articleC();
+	$shoping=$articleC->afficherArticle();
 
 ?>
 
@@ -460,26 +460,26 @@
                       </thead>
                       <tbody>
                       <?PHP
-				foreach((array)$shoping as $shop){
+				foreach((array)$shoping as $article){
 			?>
 							<tr>
-					 <td><?PHP if(isset($shop['id'])) echo $shop['id']; ?></td>
-					<td><?PHP if(isset($shop['nom'])) echo $shop['nom']; ?></td>
+					 <td><?PHP if(isset($article['idArticle'])) echo $article['idArticle']; ?></td>
+					<td><?PHP if(isset($article['nom'])) echo $article['nom']; ?></td>
 				
 					
 					
-					<td><img src="../assets/images/<?php if(isset($shop['image'])) echo $shop['image'];?>" width="200px" height="200px"> </td>
-                    <td><?PHP if(isset($shop['prix'])) echo $shop['prix']; ?></td>
+					<td><img src="../assets/images/<?php if(isset($article['image'])) echo $article['image'];?>" width="200px" height="200px"> </td>
+                    <td><?PHP if(isset($article['prix'])) echo $article['prix']; ?></td>
 					<td>
 						<form method="POST" action="deleteArticle.php">
 						<input type="submit" name="supprimer" value="supprimer">
 
 
-						<input type="hidden" value=<?PHP if(isset($shop['id'])) echo  $shop['id']; ?> name="id">
+						<input type="hidden" value=<?PHP if(isset($article['idArticle'])) echo  $article['idArticle']; ?> name="idArticle">
 						</form>
 					</td>
           <td>
-                    <a href="modifyArticle.php?id=<?PHP if(isset($shop['id'])) echo $shop['id']; ?>"> Modifier </a>	
+                    <a href="modifyArticle.php?idArticle=<?PHP if(isset($article['idArticle'])) echo $article['idArticle']; ?>"> Modifier </a>	
 					</td>
 				</tr>
 

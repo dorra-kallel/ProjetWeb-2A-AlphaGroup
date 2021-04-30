@@ -1,5 +1,5 @@
 <?php
-    class shop {
+    class article {
         private  $idArticle = null;
         private  $nom;
         private  $prix;
@@ -12,31 +12,31 @@
             $this->image = $image;
         }
 
-        public function getIdArticle () {
+        public function getIdArticle(): int{
             return $this->getidArticle;
         }
 
-        public function getNom (){
+        public function getNom(): string{
             return $this->nom ;
         }
 
-        public function getImage (){
+        public function getImage(): string{
             return $this->image ;
         }
 
-        public function getPrix (){
+        public function getPrix (): int{
             return $this->prix ;
         }
 
-        public function setNom ($nom){
+        public function setNom (string $nom){
             $this->nom = $nom;
         }
 
-        public function setImage ($image){
+        public function setImage (string $image){
             $this->image = $image;
         }
 
-        public function setPrix ($prix){
+        public function setPrix (int $prix){
             $this->prix = $prix;
         }
     }

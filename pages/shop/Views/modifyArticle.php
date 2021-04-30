@@ -4,7 +4,7 @@
 	include_once '../Model/shop.php';
 
 
-	$shopC = new shopC();
+	$articleC = new articleC();
 	$error = "";
 
 	if (
@@ -20,7 +20,7 @@
             
 
         ) {
-            $shop = new shop(
+            $article = new article(
                 $_POST['nom'],
                 $_POST['prix'], 
                 $_POST['image']
@@ -28,7 +28,7 @@
 
             );
             
-            $shopC->modifierArticle($shop, $_GET['id']);
+            $shopC->modifierArticle($article, $_GET['idArticle']);
            // header('Location:afficherUtilisateurs.php');
         }
         else
@@ -472,13 +472,13 @@
                   <div class="table-responsive">
         <hr>
         
-        <div id="error">
+        <div idArticle="error">
             <?php echo $error; ?>
         </div>
 		
 		<?php
-			if (isset($_GET['id'])){
-				$shop = $shopC->recupererArticle($_GET['id']);
+			if (isset($_GET['idArticle'])){
+				$article = $articleC->recupererArticle($_GET['idArticle']);
 				
 		?>
 		<form action="" method="POST">
@@ -489,14 +489,14 @@
                         <label for="nom">nom:
                         </label>
                     </td>
-                    <td><input type="text" name="nom" id="nom" maxlength="20" value = "<?php echo $shop['nom']; ?>"></td>
+                    <td><input type="text" name="nom" id="nom" maxlength="20" value = "<?php echo $article['nom']; ?>"></td>
                 </tr>
                 <tr>
                     <td>
                         <label for="prix">description:
                         </label>
                     </td>
-                    <td><input type="number" name="prix" id="prix" maxlength="20" value = "<?php echo $shop['prix']; ?>"></td>
+                    <td><input type="number" name="prix" id="prix" maxlength="20" value = "<?php echo $article['prix']; ?>"></td>
                 </tr>
                 
                 <tr>
@@ -505,7 +505,7 @@
                         </label>
                     </td>
                     <td>
-                        <input type="file" name="image" id="image" value = "<?php echo $shop['image']; ?>">
+                        <input type="file" name="image" id="image" value = "<?php echo $article['image']; ?>">
                     </td>
                 </tr>
                 

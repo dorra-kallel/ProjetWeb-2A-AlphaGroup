@@ -3,9 +3,9 @@
    
     require_once '../Controller/shopC.php';
     require_once '../Model/shop.php'; 
-    $shopC = new shopC() ;
-    	if (isset($_POST["id"])){
-		$shopC->deleteArticle($_POST["id"]);
+    $articleC = new articleC() ;
+    	if (isset($_POST["idArticle"])){
+		$articleC->deleteArticle($_POST["idArticle"]);
 		header('Location:addArticle.php');
 	}
 ?>

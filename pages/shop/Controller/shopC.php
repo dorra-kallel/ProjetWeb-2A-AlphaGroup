@@ -1,14 +1,14 @@
 <?php
     require_once '../config.php';
-    class shopC {
+    class articleC {
         
         public function afficherArticle() {
             try {
                 global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'SELECT * FROM shop'
+                    'SELECT * FROM article'
                 );
                 $query->execute();
                 return $query->fetchAll();
@@ -17,14 +17,15 @@
             }
         }
         public function getArticleById($idArticle) {
-            try {global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+            try {
+                global $pdo ;
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'SELECT * FROM shop WHERE id = :id'
+                    'SELECT * FROM article WHERE idArticle = :idArticle'
                 );
                 $query->execute([
-                    'id' => $idArticle
+                    'idArticle' => $idArticle
                 ]);
                 return $query->fetch();
             } catch (PDOException $e) {
@@ -34,10 +35,10 @@
 
         public function getidArticleByNom($nom) {
             try {global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'SELECT * FROM shop WHERE nom = :nom'
+                    'SELECT * FROM article WHERE nom = :nom'
                 );
                 $query->execute([
                     'nom' => $nom
@@ -47,36 +48,36 @@
                 $e->getMessage();
             }
         }
-        public function addArticle($shop) {
+        public function addArticle($article) {
             try {global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'INSERT INTO shop (nom, prix, image) 
+                    'INSERT INTO article (nom, prix, image) 
                 VALUES (:nom, :prix, :image)'
                 );
                 $query->execute([
-                    'nom' => $shop->getNom(),
-                    'prix' => $shop->getPrix(),
-                    'image' => $shop->getImage()
+                    'nom' => $article->getNom(),
+                    'prix' => $article->getPrix(),
+                    'image' => $article->getImage()
                 ]);
             } catch (PDOException $e) {
                 $e->getMessage();
             }
         }
 
-        public function updateArticle($shopi, $idArticle) {
+        public function updateArticle($article, $idArticle) {
             try {global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'UPDATE shop SET nom = :nom, prix = :prix, image = :image WHERE id = :id'
+                    'UPDATE article SET nom = :nom, prix = :prix, image = :image WHERE idArticle = :idArticle'
                 );
                 $query->execute([
-                    'nom' => $shop->getNom(),
-                    'prix' => $shop->getPrix(),
-                    'image' => $shop->getImage(),
-                    'id' => $idArticle
+                    'nom' => $article->getNom(),
+                    'prix' => $article->getPrix(),
+                    'image' => $article->getImage(),
+                    'idArticle' => $idArticle
                 ]);
                 echo $query->rowCount() . " records UPDATED successfully";
             } catch (PDOException $e) {
@@ -86,13 +87,13 @@
 
         public function deleteArticle($idArticle) {
             try {global $pdo ;
-                $pdo = new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '');
+                $pdo = new PDO('mysql:host=localhost;dbname=eshop', 'root', '');
                 $pdo = getConnexion();
                 $query = $pdo->prepare(
-                    'DELETE FROM shop WHERE id = :id'
+                    'DELETE FROM article WHERE idArticle = :idArticle'
                 );
                 $query->execute([
-                    'id' => $idArticle
+                    'idArticle' => $idArticle
                 ]);
             } catch (PDOException $e) {
                 $e->getMessage();
@@ -100,12 +101,12 @@
         }
 
         public function rechercherArticle($nom) {            
-            $sql = "SELECT * from shop where nom=:nom"; 
+            $sql = "SELECT * from article where nom=:nom"; 
             $db = config::getConnexion();
             try {
                 $query = $db->prepare($sql);
                 $query->execute([
-                    'nom' => $shop->getNom(),
+                    'nom' => $article->getNom(),
                 ]); 
                 $result = $query->fetchAll(); 
                 return $result;
@@ -114,24 +115,24 @@
                 $e->getMessage();
             }
         }
-        function modifierArticle($shop, $idArticle){
+        function modifierArticle($article, $idArticle){
             try {
                 $db = getConnexion();
                 $query = $db->prepare(
-                    'UPDATE shop SET 
+                    'UPDATE article SET 
                         nom = :nom, 
                         prix = :prix,
                         image = :image
                         
-                    WHERE id = :id'
+                    WHERE idArticle = :idArticle'
                 );
                 
-                $query->bindValue(':nom',$shop->getNom());
-                $query->bindValue(':prix',$shop->getPrix());
+                $query->bindValue(':nom',$article->getNom());
+                $query->bindValue(':prix',$article->getPrix());
     
-                $query->bindValue(':image',$shop->getImage());
+                $query->bindValue(':image',$article->getImage());
                
-                $query->bindValue(':id',$idArticle);
+                $query->bindValue(':idArticle',$idArticle);
                 $query->execute();
                 echo "<script>alert(\"Modification appliqué\")</script>";
             } catch (PDOException $e) {
@@ -141,14 +142,14 @@
     
     
         function recupererArticle($idArticle){
-            $sql="SELECT * from shop where id=$idArticle";
+            $sql="SELECT * from article where idArticle=$idArticle";
             $db = getConnexion();
             try{
                 $query=$db->prepare($sql);
                 $query->execute();
     
-                $shop=$query->fetch();
-                return $shop;
+                $article=$query->fetch();
+                return $article;
             }
             catch (Exception $e){
                 die('Erreur: '.$e->getMessage());
