@@ -1,0 +1,1 @@
+    $listeevent = $bdd->query('SELECT idalbum,titre,discription,endroit,date,image,prix,age  FROM camp WHERE titre LIKE "%' .$recherche .'%" ORDER BY idalbum DESC '  ); 
