@@ -2,11 +2,21 @@
 include "Controller/albumC.php";
 
 	$albumC=new albumC();
-	$listealbums=$albumC->afficherAlbums(); 
+ $listealbums=$albumC->afficherAlbums(); 
 
 
   $albumC=new albumC();
 	$listealbums1=$albumC->afficherAlbums1(); 
+
+if ((isset($_POST["recherche"]))&& (isset($_POST["colonne"]))){
+  if (!empty(isset($_POST["recherche"]))){
+   $n=$_POST["colonne"];
+    $listealbums=$albumC->rechercher($_POST["recherche"],$n);
+  } 
+   }
+	
+
+  
 
 ?>
 
@@ -85,13 +95,26 @@ include "Controller/albumC.php";
         <a href="signin" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-50 u-btn-2">sign in</a>
       </div></header>
 
+      <form method="POST" action="">
+        <select name="colonne" class=" flex-c-m text-center size-905 bor4 pointer hov-btn3"  style="width: 180px;">
+        <option value="all" >Tous</option>
+          <option value="titre">titre</option>
+          <option value="description">description</option>
+          <option value="famille">famille</option>
+        </select>
+          <input type="text" name="recherche" placeholder="Rechercher" class=" m-b-10 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4 "> 
+          <input type="submit" name="chercher" value="Valider" class="m-t-0 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4" style="width: 180px;">
 
+       </form>
 
       <section class="u-align-center u-clearfix u-section-1" id="sec-f2a9">
       <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
         <h3 class="u-text u-text-1">Animals </h3><!--products--><!--products_options_json--><!--{"type":"Recent","source":"","tags":"","count":""}--><!--/products_options_json-->
         <div class="u-expanded-width u-products u-products-1">
           <div class="u-repeater u-repeater-1"><!--product_item-->
+
+         
+
           <?php
           foreach($listealbums as $album){
 			?>
@@ -108,19 +131,21 @@ include "Controller/albumC.php";
                     <h6 class="u-text u-text-12"><?PHP echo $album['titre']; ?></h6>
                   </div>
                 </div><!--product_content-->
-                <div class="u-product-control u-product-desc u-text u-text-13"><!--product_content_content--><?PHP echo $album['description']; ?><!--/product_content_content--></div><!--/product_content-->
+                <div class="u-product-control u-product-desc u-text u-text-13" > <!--product_content_content--><?PHP echo $album['description']; ?><!--/product_content_content--></div><!--/product_content-->
               </div>
             </div><!--/product_item-->
             <?php 
           }
           ?>
+
+          
           </div>
         </div><!--/products-->
       </div>
     </section>
 
 
-
+    
 
     
     <section class="u-align-center u-clearfix u-palette-5-base u-section-2" id="sec-e206">
@@ -128,10 +153,11 @@ include "Controller/albumC.php";
         <h3 class="u-text u-text-default u-text-1">Shelter</h3><!--products--><!--products_options_json--><!--{"type":"Recent","source":"","tags":"","count":""}--><!--/products_options_json-->
         <div class="u-expanded-width-md u-expanded-width-sm u-expanded-width-xs u-products u-products-1">
           <div class="u-repeater u-repeater-1"><!--product_item-->
+         
+          <div class="u-align-center-lg u-align-center-sm u-align-center-xl u-align-center-xs u-container-style u-products-item u-repeater-item">
           <?PHP
 				foreach($listealbums1 as $album){
 			?>
-          <div class="u-align-center-lg u-align-center-sm u-align-center-xl u-align-center-xs u-container-style u-products-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-1"><!--product_image-->
 
               
@@ -141,19 +167,20 @@ include "Controller/albumC.php";
                   <div class="u-container-layout u-container-layout-2"><!--product_title-->
                     <h4 class="u-align-center u-product-control u-text u-text-2">
                       <a class="u-product-title-link" href="#"><!--product_title_content--><?PHP echo $album['titre']; ?><!--/product_title_content--></a>
+                      
                     </h4><!--/product_title-->
-                    <a href="form.html" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-base u-radius-2 u-btn-1">Form</a>
+                   <a href="form.html" class="u-btn u-btn-round u-button-style u-hover-palette-1-light-2 u-palette-1-base u-radius-2 u-btn-1">Form</a>
                     <a href="https://nicepage.com/c/tiles-html-templates" class="u-border-2 u-border-palette-3-dark-1 u-btn u-button-style u-hover-palette-1-base u-text-palette-3-dark-2 u-white u-btn-2">Show more&nbsp;<span class="u-icon u-text-palette-1-dark-2"><svg class="u-svg-content" viewBox="0 0 512 512" x="0px" y="0px" style="width: 1em; height: 1em;"><path d="M441.156,322.876l-48.666-47.386c-3.319-3.243-8.619-3.234-11.93,0.017l-81.894,80.299V8.533 c0-4.71-3.823-8.533-8.533-8.533h-68.267c-4.71,0-8.533,3.823-8.533,8.533v347.273l-81.894-80.299    c-3.311-3.243-8.602-3.251-11.921-0.017l-48.666,47.386c-1.655,1.604-2.586,3.806-2.586,6.11c0,2.304,0.939,4.506,2.586,6.11 l179.2,174.481c1.655,1.613,3.806,2.423,5.948,2.423c2.15,0,4.292-0.811,5.956-2.423l179.2-174.481 c1.647-1.604,2.577-3.806,2.577-6.11C443.733,326.682,442.803,324.48,441.156,322.876z"></path></svg><img></span>
                     </a>
                   </div>
-                  <?php
-        }
-               ?>
                 </div><!--product_content-->
                 <div class="u-align-center-md u-align-center-sm u-align-center-xs u-product-control u-product-desc u-text u-text-3"><!--product_content_content-->Sample small text. Lorem ipsum dolor sit amet.<!--/product_content_content--></div><!--/product_content-->
               </div>
+              
             </div><!--/product_item--><!--product_item-->
-            
+            <?php
+        }
+               ?>
               </div>
             </div><!--/product_item-->
           </div>

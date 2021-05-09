@@ -86,8 +86,15 @@
 
     
     $albumC=new albumC();
-	$listealbums=$albumC->afficherAlbums(); 
+    $listealbums2=$albumC->afficherAlbums2(); 
 
+
+  $bdd=new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '',);
+	$listealbums = $bdd->query('SELECT * FROM album ORDER BY idalbum');
+	if (isset ($_GET['s']) AND !empty($_GET['s'])){
+      $recherche =	htmlspecialchars($_GET['s']);
+	  $listealbums = $bdd->query('SELECT * FROM album WHERE titre LIKE "%' .$recherche .'%" '  ); 
+	}
 
 
   
@@ -515,7 +522,6 @@
 
 
         
-
         <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
@@ -551,7 +557,7 @@
 					 <td><?PHP echo $album['idalbum']; ?></td>
 					<td><?PHP echo $album['titre']; ?></td>
 				
-					<td><?PHP echo $album['description']; ?></td>
+					<td ><?PHP echo $album['description']; ?></td>
 					
 					<td><img src="../images/<?php echo $album['image'];?>" width="200px" height="200px"> </td>
           <td><?PHP echo $album['etat']; ?></td>
@@ -576,6 +582,27 @@
 			<?PHP
 				}
 			?>
+      <form method="GET">
+                      
+                      <input    type="search" name="s" placeholder="rechercher une espece">
+                       <input class="btn btn-light" type="submit" name="envoyer" > 
+                     
+                    </form>
+
+                   <section >
+                     <?PHP
+                    if($listealbums->rowCount()>0)
+                     {  while($album =$listealbums ->fetch()) {
+                     ?>
+
+                           <?PHP
+                            }}else {
+                                     ?>
+                          <p>aucune espece trouvé </p>
+                               <?PHP
+                                         }
+                                    ?>
+                   </section>
              </tbody>
 
 		</table>
@@ -597,69 +624,7 @@
 
 
 
-   <!--     <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Table des animaux</h4>
-                  <p class="card-description">
-                    Table pour <code>.Admin</code>
-                  </p>
-                  <div class="table-responsive">
-
-        <hr> <table class="table" >
-
-			<?PHP
-				foreach($listealbumsjointure as $album){
-			?>
-             <thead>
-                        <tr>
-                          <th>id</th>
-                          <th>nom.</th>
-                          <th>description</th>
-                          <th>image</th>
-                          <th>etat</th>
-                          <th>famille</th>
-
-
-                        </tr>
-                      </thead>
-                      <tbody>
-
-							<tr>
-					<td><?PHP echo $album['titre']; ?></td>
-				
-					<td><?PHP echo $album['nature']; ?></td>
-					
-
-
-			      
-					
-          
-
-				
-			<?PHP
-				}
-			?>
-             </tbody>
-
-		</table>
-                </div>
-                  </div>
-                    </div>
-                      </div>
-                       </div>
-        </div> !-->
-
-
-
-
-
-
-
-
+   
 
 
 
@@ -717,29 +682,51 @@
                       <input type="file" class="form-control" name="image" id="image" >
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">etat</label>
-                      <input type="number" class="form-control" name="etat" id="etat" >
-                      <?php
-                      if($verif_etat==1){
-                      echo $alert_etat;
-                      $verif_etat=0;
-                      }
+                      <label for="exampleInputPassword">etat</label>
+                      
+                      <div>
+                     
+  <input type="radio" id="etat" name="etat" value="2"
+         >
+  <label for="etat" value="2">non adoptable</label>
+  <br>
+  <input type="radio" id="etat" name="etat" value="1"
+         >
+  <label for="etat" value="1"> adoptable</label>
+</div>                    
 
-                      ?>
+
+
+</div>
+
                     
-                    </div>
-
-
                     
                     <div class="form-group">
                       <label for="exampleInputPassword">famille</label>
-                      <input type="text" class="form-control" name="famille" id="famille" >
-                    
-                    </div>
-                   
-                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
+                      
+                      <div>
+                      <?PHP
+				foreach($listealbums2 as $album){
+			?>
+  <input type="radio" id="famille" name="famille" value="<?PHP echo $album['nom_famille']; ?>"
+         checked>
+  <label for="famille"><?PHP echo $album['nom_famille']; ?></label>
+</div>                    
 
+
+<?PHP
+				}
+			?>
+</div>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
+
+
+                    <div>
+                    
+                   
+
                   </form>
                 </div>
               </div>

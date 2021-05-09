@@ -29,8 +29,7 @@
             $especeC->ajouterespece($espece);
             header('Location:addespece.php');
         }
-        else
-            $error = "Missing information";
+
     } 
     $especeC =new especeC();
 	$listeespece=$especeC->afficherespece(); 
@@ -43,7 +42,12 @@
 	  $listeespece = $bdd->query('SELECT id, nom_famille,nature,nourriture FROM espece WHERE nom_famille LIKE "%' .$recherche .'%" ORDER BY id DESC '  ); 
 	}
 
-
+  $reponse = $bdd->query('SELECT espece.id,espece.nom_famille,espece.nature,espece.nourriture, COUNT(album.famille) as f FROM espece LEFT JOIN album ON (album.famille=espece.nom_famille) GROUP BY ( album.famille)');
+    
+    
+    
+    
+    
     ?>
 
 <!DOCTYPE html>
@@ -487,12 +491,15 @@
                           <th>nom_famille.</th>
                           <th>nature</th>
                           <th>nourriture</th>
+                          <th>nbr_rep</th>
+
+
                         </tr>
                       </thead>
-			<?PHP
-				foreach($listeespece as $espece){
+			
+            	<?PHP
+				foreach($reponse as $espece){
 			?>
-            
                       <tbody>
 
 							<tr>
@@ -502,7 +509,10 @@
 					<td><?PHP echo $espece['nature']; ?></td>
                     <td><?PHP echo $espece['nourriture']; ?></td>
 
-			      
+
+<td><?PHP echo $espece['f']; ?></td>
+
+
 					<td>
 						<form method="POST" action="deleteespece.php">
 						<input type="submit" name="supprimer" value="supprimer">
@@ -516,10 +526,10 @@
 					</td>
 				</tr>
 
-				
-			<?PHP
+        <?PHP
 				}
 			?>
+		
 
 
              </tbody>

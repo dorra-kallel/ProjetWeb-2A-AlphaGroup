@@ -97,7 +97,23 @@ class albumC
         }
     }
 
+    function rechercher($input,$colonne) {
+        if($colonne == "all") 
+        {        $sql = "SELECT * from album WHERE  (etat= 2)   ";
+       } else {
+   $sql = "SELECT * from album WHERE (etat = 2) and ( $colonne LIKE \"%$input%\") "; }
+   $db = config::getConnexion();
+   try { $album=$db->query($sql); 
+    
 
+       return $album;
+   }
+   catch (PDOException $e) {
+       $e->getMessage();
+   }
+
+
+}
 
 }
 ?>

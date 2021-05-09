@@ -16,6 +16,20 @@ class albumC
       } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
     
      }
+     public function afficherAlbums2()
+     {  
+        $sql="SELECT espece.nom_famille 
+        FROM espece 
+            ";
+                   $db = config ::getConnexion();
+       try{
+         $listealbums = $db->query($sql);
+         return $listealbums ;
+ 
+ 
+       } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
+     
+      }
     /* public function afficherAlbumsjointure()
      {  $sql= " SELECT titre,nature FROM album a inner join espece e where a.nom_famille=e.famille" ; 
        $db = config ::getConnexion();
