@@ -12,7 +12,7 @@ class commC
         $listecom = $db->query($sql);
         return $listecom ;
 
-      } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
+      } catch (Exception $e) {die ('erreur : '.$e->getMessage());} ;
     
      }
 

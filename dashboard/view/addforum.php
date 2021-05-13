@@ -1,58 +1,69 @@
 <?php
+    include_once '../Model/forum.php';
+    include_once '../Controller/forumC.php';
+
+    $error = "";
+
+    // create user
+    $forum = null;
+
+    // create an instance of the controller
+    $forumC = new forumC();
     
-    include "../Controller/albumC.php";
-  include_once '../Model/album.php';
-  
-
-
-  $albumC = new albumC();
-  $error = "";
-
-  if (
+    if (
         isset($_POST["titre"]) && 
         isset($_POST["description"]) &&
         isset($_POST["image"])&&
         isset($_POST["comu"])
 
-
-        
-    ){
-    if (
+    ) {
+        if (
             !empty($_POST["titre"]) && 
             !empty($_POST["description"]) && 
             !empty($_POST["image"])&&
             !empty($_POST["comu"])
 
-
-            
-
-        ) {
-            $album = new album(
+        ) 
+            {
+            $forum = new forum(
                 $_POST['titre'],
                 $_POST['description'], 
                 $_POST['image'],
-                $_POST['comu']
+                $_POST['comu'],
 
-
-               
-
+              
             );
-            
-            $albumC->modifierAlbum($album, $_GET['idalbum']);
-            header('Location:addalbum.php');
+            $forumC->ajouterforum($forum);
+            header('Location:addforum.php');
         }
         else
-            $error = "Missing information";
-  }
-
-?>
-
-<html>
-  <head>
-    <title>Modifier album</title>
-    <meta charset="UTF-8">
+        ?>
+            <script type="text/javascript">
+            alert("Missing information");
+          </script>
+          
+          <?php      
+    } 
     
-        <!DOCTYPE html>
+
+
+    $forumC=new forumC();
+	$listeforums=$forumC->afficherforums(); 
+
+  if ((isset($_POST["recherche"]))&& (isset($_POST["colonne"]))){
+		if (!empty(isset($_POST["recherche"]))){
+		 $n=$_POST["colonne"];
+		 echo ("colonne = $n " );
+		  $listeforums=$forumC->rechercher($_POST["recherche"],$n);
+		} 
+	   }
+     $listeforums2=$forumC->afficherforums2();
+     $listeforums3=$forumC->TrierParDate();
+
+  
+    ?>
+
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -85,8 +96,8 @@
   <!-- End plugin css for this page -->
   
 </head>
-  </head>
-  <body>
+    <body>
+
     <div class="container-scroller">
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -475,84 +486,172 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Table des animaux</h4>
+                  <h4 class="card-title">Table des forums</h4>
                   <p class="card-description">
                     Table pour <code>.Admin</code>
                   </p>
                   <div class="table-responsive">
-        <hr>
-        
-        <div id="error">
-            <?php echo $error; ?>
-        </div>
-    
-    <?php
-      if (isset($_GET['idalbum'])){
-        $album = $albumC->recupererAlbum($_GET['idalbum']);
-        
-    ?>
-    <form action="" method="POST">
-            <table align="center" class="table">
-                <tr>
-                    <td rowspan='3' colspan='1'>Tableau de modfiffication </td>
-                    <td>
-                        <label for="titre">titre:
-                        </label>
-                    </td>
-                    <td><input type="text" name="titre" id="titre" maxlength="20" value = "<?php echo $album['titre']; ?>"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="description">description:
-                        </label>
-                    </td>
-                    <td><input type="text" name="description" id="description" maxlength="20" value = "<?php echo $album['description']; ?>"></td>
-                </tr>
-                
-                <tr>
-                    <td>
-                        <label for="image">image:
-                        </label>
-                    </td>
-                    <td>
-                        <input type="file" name="image" id="image" value = "<?php echo $album['image']; ?>">
-                    </td>
-                </tr>
-                <tr>
-                  <td> </td>
-                  
-                    <td>
-                        <label for="comu">comu:
-                        </label>
-                    </td>
-                    <td>
-                        <input type="text" name="comu" id="comu" value = "<?php echo $album['comu']; ?>">
-                    </td>
-                </tr>
 
-                
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" value="Modifier" name = "modifer"> 
-                    </td>
-                    <td>
-                        <input type="reset" value="Annuler" >
-                    </td>
-                </tr>
-            </table>
+        <hr> <table class="table" >
+			
+			
+             <thead>
+                        <tr>
+                          <th>id</th>
+                          <th>titre</th>
+                          <th>description</th>
+                          <th>image</th>
+                          <th>com</th>
+                          <th>date</th>
 
-        </form>
-        </div>
+                        </tr>
+                      </thead>
+                      <?PHP
+				foreach($listeforums as $forum){
+			?>
+                      <tbody>
+
+							<tr>
+					 <td><?PHP echo $forum['idforum']; ?></td>
+					<td><?PHP echo $forum['titre']; ?></td>
+				
+					<td><?PHP echo $forum['description']; ?></td>
+
+					
+					<td><img src="../images/<?php echo $forum['image'];?>" width="200px" height="200px"> </td>
+			      					<td><?PHP echo $forum['comu']; ?></td>
+                      <td><?php echo $forum['date_post'];?></td>
+
+					<td>
+						<form method="POST" action="deleteforum.php">
+						<input type="submit" name="supprimer" value="supprimer">
+
+
+						<input type="hidden" value=<?PHP echo $forum['idforum']; ?> name="idforum">
+						</form>
+					</td>
+          <td>
+						<a href="modifyforum.php?idforum=<?PHP echo $forum['idforum']; ?>"> Modifier </a>
+					</td>
+				</tr>
+
+				
+			<?PHP
+				}
+			?>
+             </tbody>
+
+		</table>
+                </div>
                   </div>
                     </div>
                       </div>
                        </div>
         </div>
 
-    <?php
-    }
-    ?>
+
+
+
+
+
+
+
+        <form method="POST" action="">
+        <select name="colonne" class=" flex-c-m text-center size-905 bor4 pointer hov-btn3"  style="width: 180px;">
+        <option value="all" >Tous</option>
+          <option value="titre">titre du post</option>
+          <option value="description">description du post</option>
+          <option value="comu">nom de com</option>
+        </select>
+          <input type="text" name="recherche" placeholder="Rechercher" class=" m-b-10 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4 "> 
+          <input type="submit" name="chercher" value="Valider" class="m-t-0 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4" style="width: 180px;">
+          <input type="submit" name="TrierParDate" value="trier" class="m-t-0 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4" style="width: 180px;">
+       </form>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        <div class="main-panel">        
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Ajouter un forum</h4>
+                  
+                  <div id="error">
+            <?php echo $error; ?>
+        </div>
+                  <form class="forms-sample" action="" method="POST" >
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">TITRE</label>
+                      <input type="text" class="form-control" name="titre" id="titre" maxlength="50" placeholder="NOM">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Description</label>
+                      <input type="text" class="form-control" name="description" id="description" maxlength="250">
+                    </div>
+
+                    
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Image</label>
+                      <input type="file" class="form-control" name="image" id="image" >
+                    </div>
+                    
+                   <div class="form-group">
+                      <label for="exampleInputEmail1">communauté</label>
+                      
+                      
+                      <div>
+                      
+                      <?PHP
+				foreach($listeforums2 as $forum){
+			?>
+  <input type="radio" id="comu" name="comu" value="<?PHP echo $forum['nom_com']; ?>"
+         checked>
+  <label for="comu"><?PHP echo $forum['nom_com']; ?></label>
+</div>                    
+
+
+<?PHP
+				}
+			?>
+</div>
+                    </div>
+
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
+
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
@@ -587,5 +686,25 @@
   <script src="../../../js/typeahead.js"></script>
   <script src="../../../js/select2.js"></script>
   <!-- End custom js for this page-->
-  </body>
+</body>
+
 </html>
+
+
+
+
+
+
+        
+
+
+
+
+    
+
+
+
+
+
+    </body>
+    </html>

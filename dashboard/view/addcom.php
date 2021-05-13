@@ -59,18 +59,12 @@
 
 
     $commC=new commC();
-	$listealbums=$commC->afficherComs(); 
+	$listeforums=$commC->afficherComs(); 
     
- if ((isset($_POST["recherche"]))&& (isset($_POST["colonne"]))){
-		if (!empty(isset($_POST["recherche"]))){
-		 $n=$_POST["colonne"];
-		 echo ("colonne = $n " );
-		  $listealbums=$commC->rechercher($_POST["recherche"],$n);
-		} 
-	   }
+ 
      $bdd=new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '',);
 
-     $reponse = $bdd->query('SELECT comm.id_com,comm.nom_com, COUNT(comm.nom_com) as f  FROM album INNER JOIN comm ON (album.comu=comm.nom_com) GROUP BY ( album.comu)');
+     $reponse = $bdd->query('SELECT comm.id_com,comm.nom_com, COUNT(forum.comu) as f FROM comm LEFT JOIN forum ON (forum.comu=comm.nom_com) GROUP BY ( forum.comu)');
 
     ?>
 
@@ -506,11 +500,7 @@
                   <div class="table-responsive">
 
         <hr> <table class="table" >
-			
-			<?PHP
-				foreach($listealbums as $comm){
-			?>
-             <thead>
+        <thead>
                         <tr>
                           <th>id</th>
                           <th>nom_com</th>
@@ -520,23 +510,23 @@
 
                         </tr>
                       </thead>
+			<?PHP
+				foreach($listeforums as $comm){
+			?>
+             
                       <tbody>
 
 							<tr>
-					 <td><?PHP echo $comm['id_com']; ?></td>
-					<td><?PHP echo $comm['nom_com']; ?></td>
-          <td></td>
+              
+					
           <?PHP
 				foreach($reponse as $comm){
-			?>
+			?>  
+           <tr>
+           <td><?PHP echo $comm['id_com']; ?></td>
+					<td><?PHP echo $comm['nom_com']; ?></td>
           <td><?PHP echo $comm['f']; ?></td>
-
-				
-					<?PHP
-				}
-			?>
-			      
-					<td>
+          <td>
 						<form method="POST" action="deleteCom.php">
 						<input type="submit" name="supprimer" value="supprimer">
 
@@ -547,6 +537,14 @@
           <td>
 						<a href="modifyCom.php?id_com=<?PHP echo $comm['id_com']; ?>"> Modifier </a>
 					</td>
+          </tr>
+
+				
+					<?PHP
+				}
+			?>
+			      
+				
 				</tr>
 
 				
@@ -568,24 +566,6 @@
 
 
 
-
-
-
-
-        <form method="POST" action="">
-        <select name="colonne" class=" flex-c-m text-center size-905 bor4 pointer hov-btn3"  style="width: 180px;">
-        <option value="all" >Tous</option>
-          <option value="nom_com">Nom de comm</option>
- 
-        </select>
-          <input type="text" name="recherche" placeholder="Rechercher" class=" m-b-10 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4 "> 
-          <input type="submit" name="chercher" value="Valider" class="m-t-0 flex-c-m text-center size-105 bor4 pointer hov-btn3  m-tb-4" style="width: 180px;">
-
-       </form>
-
-
-
-        
 
 
 

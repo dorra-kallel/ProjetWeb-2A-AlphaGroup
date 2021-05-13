@@ -1,8 +1,8 @@
 <?php 
 
-class album {
+class forum {
 
-	private  $idalbum = null ;
+	private  $idforum = null ;
 	private  $titre = null;
 		private  $description= null;
 		private  $image = null;
@@ -22,7 +22,7 @@ function __construct( string $titre, string $description, string $image, string 
 		
 		}
 		function getId(): int{
-			return $this->idalbum;
+			return $this->idforum;
 		}
 		function gettitre(): string{
 			return $this->titre;
