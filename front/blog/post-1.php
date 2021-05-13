@@ -1,8 +1,7 @@
 <?PHP
-include "albumC.php";
-include "album.php";
-include_once '../Model/album.php';
-include_once '../Controller/albumC.php';
+include "forumC.php";
+include "forum.php";
+
 
 	$albumC=new albumC();
 	$listealbums=$albumC->afficherAlbums(); 
@@ -260,7 +259,7 @@ include_once '../Controller/albumC.php';
               class="u-blog-control u-expanded-width u-image u-image-default u-image-1"
               src="../images/56deb9a416426a0396ad097f8b4d77dee8dd8a0d4fcbc3b7e4901702eb2911e93e424e85473f3c1639d73fcd3a309b9b0651e128f223111c7e080a_1280.jpg"
             /><!--/blog_post_image--><!--blog_post_header-->
-            <h2 class="u-blog-control u-text u-text-1"><?PHP echo $album['titre']; ?></h2>
+            <h2 class="u-blog-control u-text u-text-1"><?PHP echo $forum['titre']; ?></h2>
             <!--/blog_post_header--><!--blog_post_metadata-->
             <div class="u-blog-control u-metadata u-metadata-1">
               <!--blog_post_metadata_date-->

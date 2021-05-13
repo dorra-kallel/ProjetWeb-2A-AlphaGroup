@@ -1,12 +1,14 @@
-
 <?PHP
-include "forumm.php";
+include "forumC.php";
 
 
 
 	$forumC=new forumC(); 
+	$listeforums=$forumC->afficherforums(); 
+ 
 
-  $reponse = $bdd->query('SELECT comm.id_com,comm.nom_com FROM comm INNER JOIN forum ON (forum.comu=comm.nom_com) GROUP BY ( forum.comu)');
+  $listeforums2=$forumC->afficherforums2();
+ 
 
 
 ?>
@@ -102,9 +104,19 @@ include "forumm.php";
         <div class="u-blog u-blog-1">
         <table>
 			<tbody>
-     
+      <div class="forumCategoriesList"><h4><span>Principales catégories du forum</span></div></h4>
       <?PHP
-				foreach($RE as $forum){
+				foreach($listeforums2 as $forum){
+			?>
+   <a href="parcom.php"><?PHP echo $forum['nom_com']; ?></a>
+      </table></li>
+      
+      
+      <?PHP
+        }
+        ?>
+      <?PHP
+				foreach($listeforums as $forum){
 			?>
 <strong><?PHP echo $forum['comu']; ?> <hr></strong>
  
@@ -118,7 +130,7 @@ include "forumm.php";
                 <div class="u-blog-control u-post-content u-text u-text-2"><!--blog_post_content_content-->communauté : <?PHP echo $forum['comu']; ?><!--/blog_post_content_content--></div><!--/blog_post_content--><!--blog_post_metadata-->
                 <div class="u-blog-control u-post-content u-text u-text-2"><!--blog_post_content_content--><?PHP echo $forum['description']; ?><!--/blog_post_content_content--></div><!--/blog_post_content--><!--blog_post_metadata-->
                 <div class="u-blog-control u-metadata u-metadata-1"><!--blog_post_metadata_date-->
-                  <span class="u-meta-date u-meta-icon"><!--blog_post_metadata_date_content-->Wed Apr 14 2021<!--/blog_post_metadata_date_content--></span><!--/blog_post_metadata_date-->
+                  <span class="u-meta-date u-meta-icon"><!--blog_post_metadata_date_content--> <?php echo $forum['date_post'];  ?><!--/blog_post_metadata_date_content--></span><!--/blog_post_metadata_date-->
                 </div><!--/blog_post_metadata--><!--blog_post_readmore-->
                 <a href="blog/post.php" class="u-blog-control u-border-2 u-border-grey-dark-1 u-btn u-btn-rectangle u-button-style u-none u-btn-1"><!--blog_post_readmore_content-->Lire la suite<!--/blog_post_readmore_content--></a><!--/blog_post_readmore-->
               </div>

@@ -1,12 +1,11 @@
-
 <?PHP
-include "forumm.php";
 
+include_once '../Model/comm.php';
+include_once '../Controller/commC.php';
 
-
-	$forumC=new forumC(); 
-
-  $reponse = $bdd->query('SELECT comm.id_com,comm.nom_com FROM comm INNER JOIN forum ON (forum.comu=comm.nom_com) GROUP BY ( forum.comu)');
+ 
+  $commC=new commC();
+	$listealbums=$commC->afficherComs(); 
 
 
 ?>
@@ -73,7 +72,7 @@ include "forumm.php";
 </li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="Contact.html" style="padding: 10px 26px;">Contact</a>
 </li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="E-Shop" style="padding: 10px 26px;">E-Shop</a>
 </li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="animaux.html" style="padding: 10px 26px;">animaux</a>
-</li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="forum.php" style="padding: 10px 26px;">forum</a>
+</li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="forum.html" style="padding: 10px 26px;">forum</a>
 </li><li class="u-nav-item"><a class="u-active-white u-button-style u-hover-white u-nav-link u-palette-4-base u-text-active-palette-1-base u-text-hover-palette-2-base" href="events" style="padding: 10px 26px;">events</a>
 </li></ul>
           </div>
@@ -102,32 +101,12 @@ include "forumm.php";
         <div class="u-blog u-blog-1">
         <table>
 			<tbody>
-     
       <?PHP
-				foreach($RE as $forum){
-			?>
-<strong><?PHP echo $forum['comu']; ?> <hr></strong>
- 
-<div class="u-container-layout u-similar-container u-valign-bottom-xs u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xl u-container-layout-1">
-                <a class="u-post-header-link" href="blog/post.php"><!--blog_post_image-->
-                  <img src="images/<?php echo $forum['image'];?>" alt="" class="u-blog-control u-image u-image-default u-image-1" data-image-width="1280" data-image-height="853"><!--/blog_post_image-->
-                </a><!--blog_post_header-->
-                <h2 class="u-blog-control u-text u-text-1">
-                  <a class="u-post-header-link" href="blog/post.php"><!--blog_post_header_content--><?PHP echo $forum['titre']; ?><!--/blog_post_header_content--></a>
-                </h2><!--/blog_post_header--><!--blog_post_content-->
-                <div class="u-blog-control u-post-content u-text u-text-2"><!--blog_post_content_content-->communauté : <?PHP echo $forum['comu']; ?><!--/blog_post_content_content--></div><!--/blog_post_content--><!--blog_post_metadata-->
-                <div class="u-blog-control u-post-content u-text u-text-2"><!--blog_post_content_content--><?PHP echo $forum['description']; ?><!--/blog_post_content_content--></div><!--/blog_post_content--><!--blog_post_metadata-->
-                <div class="u-blog-control u-metadata u-metadata-1"><!--blog_post_metadata_date-->
-                  <span class="u-meta-date u-meta-icon"><!--blog_post_metadata_date_content-->Wed Apr 14 2021<!--/blog_post_metadata_date_content--></span><!--/blog_post_metadata_date-->
-                </div><!--/blog_post_metadata--><!--blog_post_readmore-->
-                <a href="blog/post.php" class="u-blog-control u-border-2 u-border-grey-dark-1 u-btn u-btn-rectangle u-button-style u-none u-btn-1"><!--blog_post_readmore_content-->Lire la suite<!--/blog_post_readmore_content--></a><!--/blog_post_readmore-->
-              </div>
-				
-			<?PHP
-
-				}
-			?>
-
+      foreach($listealbums as $comm)
+      ?>
+      
+			
+     
 
       </tbody>
 		</table>

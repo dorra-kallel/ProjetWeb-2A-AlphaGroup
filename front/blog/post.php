@@ -1,6 +1,6 @@
 <?PHP
 
-include "../forum.php"
+include "../forumm.php"
 
 
 ?>
@@ -46,12 +46,12 @@ include "../forum.php"
       <div class="u-clearfix u-sheet u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1"><!--post_details--><!--post_details_options_json--><!--{"source":""}--><!--/post_details_options_json--><!--blog_post-->
         <div class="u-container-style u-expanded-width u-post-details u-post-details-1">
           <div class="u-container-layout u-valign-middle u-container-layout-1"><!--blog_post_image-->
-            <img alt="" class="u-blog-control u-expanded-width u-image u-image-default u-image-1" src="images/<?php echo $album['image'];?>"><!--/blog_post_image--><!--blog_post_header-->
-            <h2 class="u-blog-control u-text u-text-1"><?PHP echo $album['titre']; ?></h2><!--/blog_post_header--><!--blog_post_metadata-->
+            <img alt="" class="u-blog-control u-expanded-width u-image u-image-default u-image-1" src="images/<?php echo $forum['image'];?>"><!--/blog_post_image--><!--blog_post_header-->
+            <h2 class="u-blog-control u-text u-text-1"><?PHP echo $forum['titre']; ?></h2><!--/blog_post_header--><!--blog_post_metadata-->
             <hr>
-            <?PHP echo $album['description']; ?>
+            <?PHP echo $forum['description']; ?>
             <div class="u-blog-control u-metadata u-metadata-1"><!--blog_post_metadata_date-->
-              <span class="u-meta-date u-meta-icon">14 avr. 2021</span><!--/blog_post_metadata_date--><!--blog_post_metadata_category-->
+              <span class="u-meta-date u-meta-icon"><?php echo $forum['date_post'];?></span><!--/blog_post_metadata_date--><!--blog_post_metadata_category-->
               <!--/blog_post_metadata_category--><!--blog_post_metadata_comments-->
               <!--/blog_post_metadata_comments-->
             </div><!--/blog_post_metadata--><!--blog_post_content-->
