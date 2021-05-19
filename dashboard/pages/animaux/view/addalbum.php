@@ -21,7 +21,9 @@
         isset($_POST["description"]) &&
         isset($_POST["image"])&&
         isset($_POST["etat"])&&
-        isset($_POST["famille"])
+        isset($_POST["famille"])&&
+        isset($_POST["addby"])
+
 
 
     ) {
@@ -30,7 +32,9 @@
             !empty($_POST["description"]) && 
             !empty($_POST["image"]) &&
             !empty($_POST["etat"])&&
-            !empty($_POST["famille"])
+            !empty($_POST["famille"])&&
+            !empty($_POST["addby"])
+
         )
             {
               
@@ -51,6 +55,8 @@
                 $_POST['image'],
                 $_POST['etat'],
                 $_POST['famille'],
+                $_POST['addby'],
+
 
 
               
@@ -86,8 +92,15 @@
 
     
     $albumC=new albumC();
-	$listealbums=$albumC->afficherAlbums(); 
+    $listealbums2=$albumC->afficherAlbums2(); 
 
+
+  $bdd=new PDO('mysql:host=localhost;dbname=atelierphp', 'root', '',);
+	$listealbums = $bdd->query('SELECT * FROM album ORDER BY idalbum');
+	if (isset ($_GET['s']) AND !empty($_GET['s'])){
+      $recherche =	htmlspecialchars($_GET['s']);
+	  $listealbums = $bdd->query('SELECT * FROM album WHERE titre LIKE "%' .$recherche .'%" '  ); 
+	}
 
 
   
@@ -95,7 +108,7 @@
     ?>
 
     <!DOCTYPE html>
-<html lang="en">
+    <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -411,42 +424,30 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="icon-layout menu-icon"></i>
-              <span class="menu-title">UI Elements</span>
+              <span class="menu-title">gestion user</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/ui-features/typography.html">Typography</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../../pages/user/index.php">user</a></li>
+                
               </ul>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-              <i class="icon-columns menu-icon"></i>
-              <span class="menu-title">Form elements</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="form-elements">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="../../../pages/forms/basic_elements.html">Basic Elements</a></li>
-              </ul>
-            </div>
-          </li>
+         
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
               <i class="icon-bar-graph menu-icon"></i>
-              <span class="menu-title">Gestion animaux</span>
+              <span class="menu-title">Gestion events</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="charts">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/animaux/view/addalbum.php">CRUD Animaux</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../event/view/addcamp.php">CRUD event</a></li>
 
               </ul>
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../../espece/view/addespece.php">CRUD espece</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../event/view/addregister.php">CRUD register</a></li>
 
               </ul>
             </div>
@@ -454,37 +455,38 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
               <i class="icon-grid-2 menu-icon"></i>
-              <span class="menu-title">Tables</span>
+              <span class="menu-title">gestion animaux</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/tables/basic-table.html">Basic table</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../../pages/animaux/view/addalbum.php">animaux</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../../pages/animaux/view/addespece.php">espece</a></li>
+
               </ul>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
               <i class="icon-contract menu-icon"></i>
-              <span class="menu-title">Icons</span>
+              <span class="menu-title">gestion e-shop</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="icons">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/icons/mdi.html">Mdi icons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../../pages/shop/views/addarticle.php">e-shop</a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="icon-head menu-icon"></i>
-              <span class="menu-title">User Pages</span>
+              <span class="menu-title">gestion blog</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/samples/login.html"> Login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="../../../pages/samples/register.html"> Register </a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../../pages/communaute/view/addcom.php"> communaute </a></li>
               </ul>
             </div>
           </li>
@@ -504,22 +506,26 @@
           <li class="nav-item">
             <a class="nav-link" href="../../../pages/documentation/documentation.html">
               <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Documentation</span>
+              <span class="menu-title">website</span>
             </a>
           </li>
         </ul>
       </nav>
 <!-- partial -->
 
+      <!-- partial -->
+      <!-- partial:../../partials/_sidebar.html -->
+     
+<!-- partial -->
+
 
 
 
         
-
         <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-11 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Table des animaux</h4>
@@ -541,6 +547,8 @@
                           <th>image</th>
                           <th>etat</th>
                           <th>famille</th>
+                          <th>addby</th>
+
 
 
                         </tr>
@@ -551,11 +559,13 @@
 					 <td><?PHP echo $album['idalbum']; ?></td>
 					<td><?PHP echo $album['titre']; ?></td>
 				
-					<td><?PHP echo $album['description']; ?></td>
+					<td ><?PHP echo $album['description']; ?></td>
 					
 					<td><img src="../images/<?php echo $album['image'];?>" width="200px" height="200px"> </td>
           <td><?PHP echo $album['etat']; ?></td>
           <td><?PHP echo $album['famille']; ?></td>
+          <td><?PHP echo $album['addby']; ?></td>
+
 
 
 			      
@@ -576,6 +586,27 @@
 			<?PHP
 				}
 			?>
+      <form method="GET">
+                      
+                      <input    type="search" name="s" placeholder="rechercher une espece">
+                       <input class="btn btn-light" type="submit" name="envoyer" > 
+                     
+                    </form>
+
+                   <section >
+                     <?PHP
+                    if($listealbums->rowCount()>0)
+                     {  while($album =$listealbums ->fetch()) {
+                     ?>
+
+                           <?PHP
+                            }}else {
+                                     ?>
+                          <p>aucune espece trouvé </p>
+                               <?PHP
+                                         }
+                                    ?>
+                   </section>
              </tbody>
 
 		</table>
@@ -597,69 +628,7 @@
 
 
 
-   <!--     <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Table des animaux</h4>
-                  <p class="card-description">
-                    Table pour <code>.Admin</code>
-                  </p>
-                  <div class="table-responsive">
-
-        <hr> <table class="table" >
-
-			<?PHP
-				foreach($listealbumsjointure as $album){
-			?>
-             <thead>
-                        <tr>
-                          <th>id</th>
-                          <th>nom.</th>
-                          <th>description</th>
-                          <th>image</th>
-                          <th>etat</th>
-                          <th>famille</th>
-
-
-                        </tr>
-                      </thead>
-                      <tbody>
-
-							<tr>
-					<td><?PHP echo $album['titre']; ?></td>
-				
-					<td><?PHP echo $album['nature']; ?></td>
-					
-
-
-			      
-					
-          
-
-				
-			<?PHP
-				}
-			?>
-             </tbody>
-
-		</table>
-                </div>
-                  </div>
-                    </div>
-                      </div>
-                       </div>
-        </div> !-->
-
-
-
-
-
-
-
-
+   
 
 
 
@@ -713,33 +682,59 @@
                       <input type="text" class="form-control" name="description" id="description" maxlength="250">
                     </div>
                     <div class="form-group">
+                      <label for="exampleInputEmail1">$addby</label>
+                      <input type="text" class="form-control" name="addby" id="addby" value="admin " readonly>
+                    </div>
+                    <div class="form-group">
                       <label for="exampleInputPassword1">Image</label>
                       <input type="file" class="form-control" name="image" id="image" >
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">etat</label>
-                      <input type="number" class="form-control" name="etat" id="etat" >
-                      <?php
-                      if($verif_etat==1){
-                      echo $alert_etat;
-                      $verif_etat=0;
-                      }
+                      <label for="exampleInputPassword">etat</label>
+                      
+                      <div>
+                     
+  <input type="radio" id="etat" name="etat" value="2"
+         >
+  <label for="etat" value="2">non adoptable</label>
+  <br>
+  <input type="radio" id="etat" name="etat" value="1"
+         >
+  <label for="etat" value="1"> adoptable</label>
+</div>                    
 
-                      ?>
+
+
+</div>
+
                     
-                    </div>
-
-
                     
                     <div class="form-group">
                       <label for="exampleInputPassword">famille</label>
-                      <input type="text" class="form-control" name="famille" id="famille" >
-                    
-                    </div>
-                   
-                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
+                      
+                      <div>
+                      <?PHP
+				foreach($listealbums2 as $album){
+			?>
+  <input type="radio" id="famille" name="famille" value="<?PHP echo $album['nom_famille']; ?>"
+         checked>
+  <label for="famille"><?PHP echo $album['nom_famille']; ?></label>
+</div>                    
 
+
+<?PHP
+				}
+			?>
+</div>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
+
+
+                    <div>
+                    
+                   
+
                   </form>
                 </div>
               </div>

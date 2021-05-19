@@ -13,7 +13,9 @@
         isset($_POST["description"]) &&
         isset($_POST["image"])&&
         isset($_POST["etat"])&&
-        isset($_POST["famille"])
+        isset($_POST["famille"])&&
+        isset($_POST["addby"])
+
 
 
         
@@ -23,7 +25,9 @@
             !empty($_POST["description"]) && 
             !empty($_POST["image"])&&
             !empty($_POST["etat"])&&
-            !empty($_POST["famille"])
+            !empty($_POST["famille"])&&
+            !empty($_POST["addby"])
+
 
 
             
@@ -34,7 +38,9 @@
                 $_POST['description'], 
                 $_POST['image'],
                 $_POST['etat'],
-                $_POST['famille']
+                $_POST['famille'],
+                $_POST['addby']
+
 
 
                
@@ -542,6 +548,17 @@
                     </td>
                     <td>
                         <input type="text" name="famille" id="famille" value = "<?php echo $album['famille']; ?>">
+                    </td>
+                </tr>
+                <tr>
+                  <td> </td>
+                  
+                    <td>
+                        <label for="addby">addby:
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="addby" id="addby" value = "<?php echo $album['addby']; ?>" readonly>
                     </td>
                 </tr>
                 

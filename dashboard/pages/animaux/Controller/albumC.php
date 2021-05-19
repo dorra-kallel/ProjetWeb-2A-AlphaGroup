@@ -16,6 +16,20 @@ class albumC
       } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
     
      }
+     public function afficherAlbums2()
+     {  
+        $sql="SELECT espece.nom_famille 
+        FROM espece 
+            ";
+                   $db = config ::getConnexion();
+       try{
+         $listealbums = $db->query($sql);
+         return $listealbums ;
+ 
+ 
+       } catch (Exception $e) {die ('erreur : '.$e->getMessage());}
+     
+      }
     /* public function afficherAlbumsjointure()
      {  $sql= " SELECT titre,nature FROM album a inner join espece e where a.nom_famille=e.famille" ; 
        $db = config ::getConnexion();
@@ -29,8 +43,8 @@ class albumC
       }*/
      public function ajouteralbum($album)
     {
-        $sql="insert into album (titre,description,image,etat,famille)
-        values (:titre,:description,:image,:etat,:famille)";
+        $sql="insert into album (titre,description,image,etat,famille,addby)
+        values (:titre,:description,:image,:etat,:famille,:addby)";
         $db=config::getConnexion();
 
         try
@@ -42,6 +56,8 @@ class albumC
                 'image'=>$album->getimage(), 
                 'etat'=>$album->getetat(),
                 'famille'=>$album->getfamille(),
+                'addby'=>$album->getaddby(),
+
 
 
                 
@@ -77,7 +93,9 @@ class albumC
                     description = :description,
                     image = :image,
                     etat = :etat,
-                    famille = :famille
+                    famille = :famille,
+                    addby = :addby
+
 
 
                     
@@ -90,6 +108,8 @@ class albumC
             $query->bindValue(':image',$album->getimage());
             $query->bindValue(':etat',$album->getetat());
             $query->bindValue(':famille',$album->getfamille());
+            $query->bindValue(':addby',$album->getaddby());
+
 
 
 

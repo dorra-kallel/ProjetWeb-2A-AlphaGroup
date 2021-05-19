@@ -1,0 +1,7 @@
+Le module "Gestion des utilisateurs" se compose :
+
+    D'un outils permettant de créer des utilisateurs et des groupes d'utilisateurs.
+    D'un outils permettant aux visiteurs de votre site de s'y inscrire ou de s'y connecter.
+    D'un outil permettant de définir les droits pour chaque utilisateur et chaque groupe.
+    D'un outil qui vous permet de définir les droits (voir, modifier, ajouter, supprimer, etc.) pour chaque élément du site.
+    D'un Intranet, véritable second site privé, réservé aux seuls utilisateurs identifiés du site disposant des droits.

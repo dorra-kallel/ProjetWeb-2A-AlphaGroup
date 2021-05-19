@@ -5,7 +5,7 @@
 class especeC
 {
  public function afficherespece()
-    {  $sql= " SELECT * FROM espece" ; 
+    {  $sql= " SELECT espece.id,espece.nom_famille,espece.nature,espece.nourriture, COUNT(espece.nom_famille) as f FROM album LEFT JOIN espece ON (album.famille=espece.nom_famille) GROUP BY ( album.famille) " ; 
       $db = config ::getConnexion();
       try{
         $listeespece = $db->query($sql);
